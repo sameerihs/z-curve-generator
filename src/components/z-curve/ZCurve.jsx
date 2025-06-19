@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 // Helper function to wrap text
 function wrapText(text, maxWords = 3) {
-  if (!text) return [''];  // Handle null or undefined text
+  if (!text) return [''];
   const words = text.split(' ');
-  if (words.length <= maxWords) return [text];  // Return array with single line
+  if (words.length <= maxWords) return [text];
   
   const lines = [];
   for (let i = 0; i < words.length; i += maxWords) {
@@ -52,29 +52,21 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
     height * 0.85
   ];
   const arcRadius = Math.min(42, width * 0.035);
-
   const availableWidth = width - 2 * padding;
   
   const firstX = padding;
   const firstY = yLevels[0];
   const extraStart = Math.min(50, width * 0.04);
-
   const lastX = width - padding;
   const lastY = yLevels[2];
-
   const responsiveStrokeWidth = Math.max(4, Math.min(strokeWidth, width / 150));
 
-  // Color mapping for automation types
   const getNodeColor = (type) => {
     switch (type) {
-      case 'Automated':
-        return '#10b981'; // Green
-      case 'Partially Automated':
-        return '#f59e0b'; // Amber
-      case 'Manual':
-        return '#f97316'; // Dark orange
-      default:
-        return '#10b981';
+      case 'Automated': return '#10b981';
+      case 'Partially Automated': return '#f59e0b';
+      case 'Manual': return '#f97316';
+      default: return '#10b981';
     }
   };
 
@@ -84,7 +76,7 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="xMidYMid meet"
         className="w-full h-full min-w-[600px]"
-        style={{ minHeight: '350px', fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
+        style={{ minHeight: '400px', fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
       >
         <defs>
           <marker
@@ -100,81 +92,43 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
           </marker>
         </defs>
 
-        <path
-          d={`M ${firstX - extraStart},${firstY} L ${firstX},${firstY}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-        />
+        {/* Z-curve path */}
+        <path d={`M ${firstX - extraStart},${firstY} L ${firstX},${firstY}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" />
+        <path d={`M ${firstX},${firstY} L ${width - padding},${firstY}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" />
+        <path d={`M ${width - padding},${yLevels[0]} A ${arcRadius},${arcRadius} 0 0 1 ${width - padding},${yLevels[1]}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" />
+        <path d={`M ${padding},${yLevels[1]} L ${width - padding},${yLevels[1]}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" />
+        <path d={`M ${padding},${yLevels[1]} A ${arcRadius},${arcRadius} 0 0 0 ${padding},${yLevels[2]}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" />
+        <path d={`M ${padding},${yLevels[2]} L ${lastX},${lastY}`} stroke="#10b981" strokeWidth={responsiveStrokeWidth} fill="none" strokeLinecap="round" markerEnd="url(#arrow)" />
 
-        <path
-          d={`M ${firstX},${firstY} L ${width - padding},${firstY}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-        />
-        
-        <path
-          d={`M ${width - padding},${yLevels[0]} A ${arcRadius},${arcRadius} 0 0 1 ${width - padding},${yLevels[1]}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-        />
-        
-        <path
-          d={`M ${padding},${yLevels[1]} L ${width - padding},${yLevels[1]}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-        />
-        
-        <path
-          d={`M ${padding},${yLevels[1]} A ${arcRadius},${arcRadius} 0 0 0 ${padding},${yLevels[2]}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-        />
-        
-        <path
-          d={`M ${padding},${yLevels[2]} L ${lastX},${lastY}`}
-          stroke="#10b981"
-          strokeWidth={responsiveStrokeWidth}
-          fill="none"
-          strokeLinecap="round"
-          markerEnd="url(#arrow)"
-        />
-
+        {/* Process nodes */}
         {processes.map((proc, index) => {
           const totalNodes = processes.length;
           const nodesPerRow = Math.ceil(totalNodes / yLevels.length);
           const minNodeSpacing = Math.max(120, availableWidth / (nodesPerRow + 1));
-          
           const rowIndex = Math.floor(index / nodesPerRow);
           let positionInRow = index % nodesPerRow;
-          
           const actualNodesInThisRow = Math.min(nodesPerRow, totalNodes - (rowIndex * nodesPerRow));
           if (rowIndex === 1) {
             positionInRow = actualNodesInThisRow - 1 - positionInRow;
           }
-          
+
           const effectiveWidth = availableWidth - 50;
           const stepInRow = actualNodesInThisRow > 1 ? effectiveWidth / (actualNodesInThisRow - 1) : 0;
           const cx = actualNodesInThisRow === 1 ? padding + effectiveWidth / 2 : padding + (positionInRow * stepInRow);
-          
           const cy = yLevels[rowIndex % yLevels.length];
-          
+
           const radius = Math.max(18, Math.min(28, width / 45));
-          
           const titleFontSize = Math.max(10, Math.min(16, width / 80));
           const personaFontSize = Math.max(9, Math.min(12, width / 100));
+          const toolsFontSize = Math.max(8, Math.min(11, width / 110));
 
           const nodeColor = getNodeColor(proc.type);
           const wrappedName = wrapText(proc.name);
+          const toolsText = Array.isArray(proc.tools)
+  ? proc.tools.join(' • ')
+  : (proc.tools || '');
+
+
 
           return (
             <g key={index}>
@@ -197,24 +151,15 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
                 className="pointer-events-none select-none"
               >
                 {wrappedName.map((line, i) => (
-                  <tspan
-                    key={i}
-                    x={cx}
-                    dy={i === 0 ? 0 : titleFontSize * 1.2}
-                    className="hidden sm:inline"
-                  >
+                  <tspan key={i} x={cx} dy={i === 0 ? 0 : titleFontSize * 1.2} className="hidden sm:inline">
                     {line}
                   </tspan>
                 ))}
-                <tspan
-                  x={cx}
-                  dy={0}
-                  className="sm:hidden"
-                >
+                <tspan x={cx} dy={0} className="sm:hidden">
                   {proc.name?.split('.')[0] + '.'}
                 </tspan>
               </text>
-              
+
               <text
                 x={cx}
                 y={cy + radius + 16}
@@ -225,25 +170,32 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
               >
                 {proc.persona}
               </text>
+
+              {toolsText && (
+                <text
+                  x={cx}
+                  y={cy + radius + 32}
+                  fontSize={toolsFontSize}
+                  fill="#6b7280"
+                  textAnchor="middle"
+                  className="pointer-events-none select-none"
+                >
+                  {toolsText}
+                </text>
+              )}
             </g>
           );
         })}
 
-        {/* Legend */}
-        <g transform={`translate(${padding}, ${height + 40})`}>
-          <text x="0" y="0" fontSize="16" fontWeight="bold" fill="#111827">Legend:</text>
-          
-          {/* Manual */}
+        {/* Legend moved down */}
+        <g transform={`translate(${padding}, ${height +40})`}>
+          <text x="0" y="0" fontSize="14" fontWeight="bold" fill="#111827">Legend:</text>
           <circle cx="80" cy="-5" r="6" fill="white" stroke="#f97316" strokeWidth="2" />
-          <text x="95" y="0" fontSize="14" fill="#111827">Manual</text>
-          
-          {/* Partially Automated */}
+          <text x="95" y="0" fontSize="12" fill="#111827">Manual</text>
           <circle cx="180" cy="-5" r="6" fill="white" stroke="#f59e0b" strokeWidth="2" />
-          <text x="195" y="0" fontSize="14" fill="#111827">Partially Automated</text>
-          
-          {/* Automated */}
-          <circle cx="340" cy="-5" r="6" fill="white" stroke="#10b981" strokeWidth="2" />
-          <text x="355" y="0" fontSize="14" fill="#111827">Automated</text>
+          <text x="195" y="0" fontSize="12" fill="#111827">Partially Automated</text>
+          <circle cx="320" cy="-5" r="6" fill="white" stroke="#10b981" strokeWidth="2" />
+          <text x="335" y="0" fontSize="12" fill="#111827">Automated</text>
         </g>
       </svg>
     </div>
