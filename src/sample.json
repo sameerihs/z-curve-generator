@@ -1,0 +1,158 @@
+{
+    "steps": [
+      {
+        "id": 1,
+        "name": "Initial Assessment",
+        "description": "Gathering and reviewing all preliminary information and requirements from the client.",
+        "type": "Manual",
+        "essaType": "Eliminate",
+        "persona": "Business Analyst",
+        "tools": "CRM, Email, Meeting notes",
+        "input": "Client brief, Existing documentation"
+      },
+      {
+        "id": 2,
+        "name": "Data Collection",
+        "description": "Collecting all relevant data from various sources to understand the current process.",
+        "type": "Automated",
+        "essaType": "Automate",
+        "persona": "Data Engineer",
+        "tools": "ETL tools, Databases, APIs",
+        "input": "System logs, User data, Historical records"
+      },
+      {
+        "id": 3,
+        "name": "Process Mapping",
+        "description": "Visually mapping out the 'as-is' process flow to identify bottlenecks and inefficiencies.",
+        "type": "Manual",
+        "essaType": "Simplify",
+        "persona": "Process Consultant",
+        "tools": "Visio, Lucidchart, Whiteboard",
+        "input": "Collected data, Interview transcripts"
+      },
+      {
+        "id": 4,
+        "name": "Root Cause Analysis",
+        "description": "Identifying the underlying causes of problems and inefficiencies in the existing process.",
+        "type": "Manual",
+        "essaType": "Eliminate",
+        "persona": "Quality Analyst",
+        "tools": "Fishbone diagrams, 5 Whys",
+        "input": "Process map, Performance metrics"
+      },
+      {
+        "id": 5,
+        "name": "Solution Brainstorming",
+        "description": "Generating potential solutions to address the identified root causes.",
+        "type": "Manual",
+        "essaType": "Simplify",
+        "persona": "Innovation Team",
+        "tools": "Brainstorming software, Collaboration tools",
+        "input": "Root cause analysis report"
+      },
+      {
+        "id": 6,
+        "name": "Feasibility Study",
+        "description": "Assessing the practicality and viability of proposed solutions.",
+        "type": "Manual",
+        "essaType": "Standardize",
+        "persona": "Project Manager",
+        "tools": "Cost-benefit analysis, Risk assessment matrices",
+        "input": "Proposed solutions, Resource availability"
+      },
+      {
+        "id": 7,
+        "name": "Solution Design",
+        "description": "Developing detailed designs for the selected solutions, including new process flows.",
+        "type": "Partially Automated",
+        "essaType": "Standardize",
+        "persona": "Solutions Architect",
+        "tools": "UML diagrams, BPMN tools, Design software",
+        "input": "Feasibility study report"
+      },
+      {
+        "id": 8,
+        "name": "Development/Configuration",
+        "description": "Building or configuring the necessary systems and tools for the new process.",
+        "type": "Automated",
+        "essaType": "Automate",
+        "persona": "Software Developer",
+        "tools": "IDEs, Version control, Cloud platforms",
+        "input": "Solution design documents"
+      },
+      {
+        "id": 9,
+        "name": "Testing Phase",
+        "description": "Rigorously testing the new process and systems to ensure they meet requirements.",
+        "type": "Partially Automated",
+        "essaType": "Standardize",
+        "persona": "QA Engineer",
+        "tools": "Test automation frameworks, Bug tracking systems",
+        "input": "Developed solution, Test cases"
+      },
+      {
+        "id": 10,
+        "name": "Training and Documentation",
+        "description": "Preparing users for the new process and creating comprehensive documentation.",
+        "type": "Manual",
+        "essaType": "Simplify",
+        "persona": "Training Specialist",
+        "tools": "LMS, Technical writing tools",
+        "input": "New process flows, System functionalities"
+      },
+      {
+        "id": 11,
+        "name": "Pilot Deployment",
+        "description": "Implementing the new process on a small scale to identify any unforeseen issues.",
+        "type": "Manual",
+        "essaType": "Standardize",
+        "persona": "Deployment Lead",
+        "tools": "Pilot feedback forms, Monitoring tools",
+        "input": "Tested solution, Training completion"
+      },
+      {
+        "id": 12,
+        "name": "Full Rollout",
+        "description": "Deploying the new process across the entire organization or target group.",
+        "type": "Partially Automated",
+        "essaType": "Automate",
+        "persona": "Operations Manager",
+        "tools": "Deployment scripts, Communication platforms",
+        "input": "Pilot results, Rollout plan"
+      },
+      {
+        "id": 13,
+        "name": "Performance Monitoring",
+        "description": "Continuously monitoring the new process to track its effectiveness and identify deviations.",
+        "type": "Automated",
+        "essaType": "Automate",
+        "persona": "Performance Analyst",
+        "tools": "BI dashboards, Monitoring alerts",
+        "input": "Live process data"
+      },
+      {
+        "id": 14,
+        "name": "Feedback and Iteration",
+        "description": "Collecting user feedback and making necessary adjustments for continuous improvement.",
+        "type": "Manual",
+        "essaType": "Simplify",
+        "persona": "Customer Success",
+        "tools": "Survey tools, Feedback platforms",
+        "input": "Performance reports, User feedback"
+      },
+      {
+        "id": 15,
+        "name": "Process Optimization",
+        "description": "Ongoing refinement and enhancement of the process based on performance data and feedback.",
+        "type": "Partially Automated",
+        "essaType": "Automate",
+        "persona": "Process Improvement Specialist",
+        "tools": "Data analytics, A/B testing",
+        "input": "Historical performance, Optimization goals"
+      }
+    ],
+    "metadata": {
+      "createdAt": "2025-06-10T13:38:48.000Z",
+      "version": "1.0"
+    }
+  }
