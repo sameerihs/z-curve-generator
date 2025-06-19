@@ -230,20 +230,20 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
         })}
 
         {/* Legend */}
-        <g transform={`translate(${padding}, ${height - 60})`}>
-          <text x="0" y="0" fontSize="14" fontWeight="bold" fill="#111827">Legend:</text>
+        <g transform={`translate(${padding}, ${height + 40})`}>
+          <text x="0" y="0" fontSize="16" fontWeight="bold" fill="#111827">Legend:</text>
           
           {/* Manual */}
           <circle cx="80" cy="-5" r="6" fill="white" stroke="#f97316" strokeWidth="2" />
-          <text x="95" y="0" fontSize="12" fill="#111827">Manual</text>
+          <text x="95" y="0" fontSize="14" fill="#111827">Manual</text>
           
           {/* Partially Automated */}
           <circle cx="180" cy="-5" r="6" fill="white" stroke="#f59e0b" strokeWidth="2" />
-          <text x="195" y="0" fontSize="12" fill="#111827">Partially Automated</text>
+          <text x="195" y="0" fontSize="14" fill="#111827">Partially Automated</text>
           
           {/* Automated */}
-          <circle cx="320" cy="-5" r="6" fill="white" stroke="#10b981" strokeWidth="2" />
-          <text x="335" y="0" fontSize="12" fill="#111827">Automated</text>
+          <circle cx="340" cy="-5" r="6" fill="white" stroke="#10b981" strokeWidth="2" />
+          <text x="355" y="0" fontSize="14" fill="#111827">Automated</text>
         </g>
       </svg>
     </div>
