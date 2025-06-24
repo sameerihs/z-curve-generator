@@ -59,7 +59,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   onChange={(e) => handleChange('description', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24"
                   placeholder="Enter step description"
-                  required
                 />
               </div>
 
@@ -69,7 +68,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   value={formData.type}
                   onChange={(e) => handleChange('type', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
                 >
                   <option value="Manual">Manual</option>
                   <option value="Automated">Automated</option>
@@ -83,7 +81,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   value={formData.essaType}
                   onChange={(e) => handleChange('essaType', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
                 >
                   <option value="Eliminate">Eliminate</option>
                   <option value="Simplify">Simplify</option>
@@ -100,7 +97,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   onChange={(e) => handleChange('persona', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter persona"
-                  required
                 />
               </div>
 
@@ -112,7 +108,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   onChange={(e) => handleChange('tools', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter tools (comma separated)"
-                  required
                 />
               </div>
 
@@ -124,7 +119,6 @@ const StepFormModal = ({ step, onSave, onClose, isNew = false }) => {
                   onChange={(e) => handleChange('input', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter required input"
-                  required
                 />
               </div>
             </div>

@@ -93,23 +93,57 @@ const ZCurveGenerator = () => {
     }
   };
 
+  const getSvgString = (svgElement) => {
+    if (!svgElement) return '';
+    const clonedSvg = svgElement.cloneNode(true);
+  
+    // Remove foreignObject elements used for tooltips before processing styles
+    clonedSvg.querySelectorAll('foreignObject').forEach(fo => fo.remove());
+
+    // Recursively inline all computed styles
+    const inlineStyles = (element) => {
+      if (!element.style) return; // Skip non-styleable elements
+      const computedStyle = window.getComputedStyle(element);
+      let styleString = '';
+      for (const prop of computedStyle) {
+        styleString += `${prop}: ${computedStyle.getPropertyValue(prop)};`;
+      }
+      element.setAttribute('style', styleString);
+      for (const child of element.children) {
+        inlineStyles(child);
+      }
+    };
+  
+    inlineStyles(clonedSvg);
+  
+    // Add a style block for the font to ensure it's available in the exported SVG
+    const style = document.createElement('style');
+    style.textContent = "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');";
+    const defs = document.createElement('defs');
+    defs.appendChild(style);
+    clonedSvg.insertBefore(defs, clonedSvg.firstChild);
+  
+    // Set explicit dimensions
+    const bbox = svgElement.getBBox();
+    clonedSvg.setAttribute('width', bbox.width);
+    clonedSvg.setAttribute('height', bbox.height);
+    clonedSvg.setAttribute('viewBox', `0 0 ${bbox.width} ${bbox.height}`);
+  
+    return new XMLSerializer().serializeToString(clonedSvg);
+  };
+  
   const downloadFile = (format) => {
     const svgElement = document.querySelector('.z-curve-container svg');
-    if (!svgElement) return;
-
-    const bbox = svgElement.getBBox();
-    const width = bbox.width;
-    const height = bbox.height;
-
+    if (!svgElement) {
+      alert('Could not find the Z-Curve chart to download.');
+      return;
+    }
+  
+    const svgString = getSvgString(svgElement);
+  
     if (format === 'svg') {
-      const clonedSvg = svgElement.cloneNode(true);
-      clonedSvg.setAttribute('width', width);
-      clonedSvg.setAttribute('height', height);
-      
-      const svgData = new XMLSerializer().serializeToString(clonedSvg);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
-      
       const link = document.createElement('a');
       link.href = url;
       link.download = 'z-curve.svg';
@@ -118,40 +152,37 @@ const ZCurveGenerator = () => {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } else if (format === 'png') {
-      const clonedSvg = svgElement.cloneNode(true);
-      const svgData = new XMLSerializer().serializeToString(clonedSvg);
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = width * 2;
-          canvas.height = height * 2;
-          
-          const ctx = canvas.getContext('2d');
-          ctx.fillStyle = 'white';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          ctx.scale(2, 2);
-          ctx.drawImage(img, 0, 0);
-
-          const dataUrl = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.href = dataUrl;
-          link.download = 'z-curve.png';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        };
-
-        img.src = e.target.result;
+      const img = new Image();
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+  
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const scaleFactor = 2;
+        canvas.width = img.width * scaleFactor;
+        canvas.height = img.height * scaleFactor;
+  
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  
+        const pngUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = pngUrl;
+        link.download = 'z-curve.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      };
+  
+      img.onerror = () => {
+        alert('An error occurred while converting the chart to PNG.');
+        URL.revokeObjectURL(url);
       };
       
-      reader.readAsDataURL(svgBlob);
+      img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgString)))}`;
     } else if (format === 'json') {
       const data = {
         steps: steps,

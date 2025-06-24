@@ -151,13 +151,10 @@ const ZCurve = ({ strokeWidth = 6, processes = [] }) => {
                 className="pointer-events-none select-none"
               >
                 {wrappedName.map((line, i) => (
-                  <tspan key={i} x={cx} dy={i === 0 ? 0 : titleFontSize * 1.2} className="hidden sm:inline">
+                  <tspan key={i} x={cx} dy={i === 0 ? 0 : titleFontSize * 1.2}>
                     {line}
                   </tspan>
                 ))}
-                <tspan x={cx} dy={0} className="sm:hidden">
-                  {proc.name?.split('.')[0] + '.'}
-                </tspan>
               </text>
 
               <text
